@@ -46,9 +46,9 @@ window.PORTFOLIO_DADOS = {
       "url": "https://colab.research.google.com/github/Carine-data-analyst/cbers4a-laboratorio/blob/main/notebooks/visualizacao_falsa_cor_nir_area1.ipynb"
     },
     {
-      "titulo": "Extração de amostras da Area1",
+      "titulo": "Conversão de XML para Shapefile e Categorização de Classes + Extração Individual dos Polígonos em GeoTIFF ",
       "categoria": "Amostragem / CVAT",
-      "descricao": "Conversão das anotações em geometrias e extração de amostras; conferir a versão antes de executar.",
+      "descricao": "Conversão das anotações em geometrias e separação das classes em pastas e arquivos individuais.",
       "url": "https://colab.research.google.com/drive/1095adNgsNkqJaE83r53PWkD3Ry8honwG"
     },
     {

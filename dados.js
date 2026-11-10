@@ -5,7 +5,7 @@ window.PORTFOLIO_DADOS = {
   "subtitulo": "Portfólio de pesquisa: biblioteca de códigos, banco de amostras em duas classes, experimentos com MobileNetV2 e diário de orientação.",
   "autora": "Carine",
   "tipo": "Classificação binária · 2 classes",
-  "descricaoAmostras": "Conjunto binário de anotações da Area1: vegetação arbórea e outros elementos de cobertura urbana. Os totais atuais serão preenchidos após conferência das versões do CVAT.",
+  "descricaoAmostras": "Banco de amostras da Area1, com 500 polígonos distribuídos em duas classes: Vegetação arbórea (302) e Outros (198). Os arquivos GeoTIFF individuais estão armazenados no Google Drive com acesso controlado.",
   "tema": {
     "acento": "#147d7a",
     "suave": "#e1f4f0",
@@ -20,18 +20,19 @@ window.PORTFOLIO_DADOS = {
     {
       "nome": "Vegetação arbórea",
       "icone": "🌳",
-      "descricao": "Copas de árvores e vegetação de porte arbóreo.",
-      "poligonos": null,
-      "link": ""
+      "descricao": "Copas de árvores e vegetação de porte arbóreo identificadas na Area1.",
+      "poligonos": 302,
+      "link": "https://drive.google.com/drive/folders/1JRnsgbC0uXwUIDamcoCL6B-V128UolRD?usp=sharing"
     },
     {
       "nome": "Outros",
       "icone": "◫",
-      "descricao": "Demais elementos e coberturas do solo reunidos em uma classe.",
-      "poligonos": null,
-      "link": ""
+      "descricao": "Demais elementos de cobertura do solo reunidos na classe Outros.",
+      "poligonos": 198,
+      "link": "https://drive.google.com/drive/folders/1JRnsgbC0uXwUIDamcoCL6B-V128UolRD?usp=sharing"
     }
   ],
+  
   "codigos": [
     {
       "titulo": "Caracterização da Area1 e geração de patches",

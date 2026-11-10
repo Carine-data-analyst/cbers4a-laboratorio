@@ -109,7 +109,7 @@ window.PORTFOLIO_DADOS = {
         "Acurácia: 96,00%"
       ],
       "observacoes": "Experimento com amostras próprias da Area1, sem contexto buffer. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
-      "link": "https://colab.research.google.com/drive/1jAKTmaX2Fdv1kN7BMS81icjiQ6_oP4k8#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
+      "link": "https://colab.research.google.com/drive/1BiLmwB0QBfh5zVqiVDKiQ9MWiScDNbTc#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
     },
     {
       "titulo": "Treinamento 1 — MobileNetV2: contorno com contexto buffer",
@@ -125,7 +125,7 @@ window.PORTFOLIO_DADOS = {
         "Acurácia: 90,67%"
       ],
       "observacoes": "Experimento com amostras próprias da Area1, utilizando contexto buffer de 20%. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
-      "link": "https://colab.research.google.com/drive/1aoGIhadt1MUrmyAeowUtEcgryCu4GC8n#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
+      "link": "https://colab.research.google.com/drive/1VJeWbnCP6Y1fbXTvH2l60Oqz5ejXkq1d#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
     },
   ],
   "historico": [

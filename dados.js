@@ -82,7 +82,7 @@ window.PORTFOLIO_DADOS = {
         "100% no teste para as 3 estratégias"
       ],
       "observacoes": "Resultado limitado a 17 amostras de teste da mesma imagem. Não demonstra generalização espacial; registrar a versão do dataset.",
-      "link": ""
+      "link": "https://colab.research.google.com/drive/1q6Xyu0vqv2bigjUkqgYA6eNH8x0daCtF#scrollTo=Wx_hlQtKj3Nj&fullscreenOutput=true"
     },
     {
       "titulo": "MobileNetV2 — piloto de 33 polígonos",
@@ -94,7 +94,7 @@ window.PORTFOLIO_DADOS = {
         "7 teste"
       ],
       "observacoes": "Resultados de piloto e variantes de execução devem ser versionados individualmente antes da comparação.",
-      "link": ""
+      "link": "https://colab.research.google.com/drive/1bcTsx5zZcnOAi5sT8ux33f0cJnUCszHd#scrollTo=XD1K6blIDeu3&fullscreenOutput=true"
     },    
     {
       "titulo": "Treinamento 1 — MobileNetV2: contorno sem contexto",

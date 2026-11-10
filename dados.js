@@ -52,7 +52,7 @@ window.PORTFOLIO_DADOS = {
       "url": "https://colab.research.google.com/drive/1095adNgsNkqJaE83r53PWkD3Ry8honwG"
     },
     {
-      "titulo": "Experimento piloto: recortes e contexto",
+      "titulo": "Experimento piloto 1: recortes e contexto com patches 64x64",
       "categoria": "MobileNetV2 / testes",
       "descricao": "Comparações iniciais de recorte ajustado e contexto espacial e preparação de amostras.",
       "url": "https://colab.research.google.com/drive/1bcTsx5zZcnOAi5sT8ux33f0cJnUCszHd"
@@ -60,7 +60,7 @@ window.PORTFOLIO_DADOS = {
   ],
   "experimentos": [
     {
-      "titulo": "MobileNetV2 — 110 polígonos e três recortes",
+      "titulo": "Experimento piloto 2: MobileNetV2 — 110 polígonos e três recortes",
       "status": "Resultado histórico",
       "descricao": "Comparação entre recortes ajustados, contexto retangular e buffer. Foram 110 polígonos originais e 330 recortes.",
       "metricas": [

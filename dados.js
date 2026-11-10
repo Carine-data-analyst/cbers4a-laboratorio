@@ -56,6 +56,18 @@ window.PORTFOLIO_DADOS = {
       "categoria": "MobileNetV2 / testes",
       "descricao": "Comparações iniciais de recorte ajustado e contexto espacial e preparação de amostras.",
       "url": "https://colab.research.google.com/drive/1bcTsx5zZcnOAi5sT8ux33f0cJnUCszHd"
+    },   
+    {
+      "titulo": "Treinamento MobileNetV2 - contorno sem contexto",
+      "categoria": "MobileNetV2 / treinamento",
+      "descricao": "Treinamento da MobileNetV2 utilizando os GeoTIFFs individuais dos polígonos, sem contexto espacial adicional. Identificação automática de classes, labels e quantidade de amostras.",
+      "url": "https://colab.research.google.com/drive/1jAKTmaX2Fdv1kN7BMS81icjiQ6_oP4k8#scrollTo=W8k3aEjb_e85"
+    },
+    {
+      "titulo": "Treinamento MobileNetV2 - contorno com contexto buffer",
+      "categoria": "MobileNetV2 / treinamento",
+    "descricao": "Treinamento da MobileNetV2 utilizando os polígonos com contexto espacial adicional por buffer de 20%. Identificação automática de classes, labels e quantidade de amostras.",
+    "url": "https://colab.research.google.com/drive/1aoGIhadt1MUrmyAeowUtEcgryCu4GC8n#scrollTo=5kVP9NMeVnR-"
     }
   ],
   "experimentos": [
@@ -83,7 +95,38 @@ window.PORTFOLIO_DADOS = {
       ],
       "observacoes": "Resultados de piloto e variantes de execução devem ser versionados individualmente antes da comparação.",
       "link": ""
-    }
+    },    
+    {
+      "titulo": "Treinamento 1 — MobileNetV2: contorno sem contexto",
+      "status": "Concluído",
+      "descricao": "Estratégia: SEM CONTEXTO. Total de amostras: 500. Classes: 2. Treinamento: 350. Validação: 75. Teste: 75. Acurácia de teste: 96,00%.",
+      "metricas": [
+        "500 amostras",
+        "2 classes",
+        "350 treino",
+        "75 validação",
+        "75 teste",
+        "Acurácia: 96,00%"
+      ],
+      "observacoes": "Experimento com amostras próprias da Area1, sem contexto buffer. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
+      "link": "https://colab.research.google.com/drive/1jAKTmaX2Fdv1kN7BMS81icjiQ6_oP4k8#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
+    },
+    {
+      "titulo": "Treinamento 1 — MobileNetV2: contorno com contexto buffer",
+      "status": "Concluído",
+      "descricao": "Estratégia: COM CONTEXTO BUFFER DE 20%. Total de amostras: 500. Classes: 2. Treinamento: 350. Validação: 75. Teste: 75. Acurácia de teste: 90,67%.",
+      "metricas": [
+        "500 amostras",
+        "2 classes",
+        "350 treino",
+        "75 validação",
+        "75 teste",
+        "Buffer: 20%",
+        "Acurácia: 90,67%"
+      ],
+      "observacoes": "Experimento com amostras próprias da Area1, utilizando contexto buffer de 20%. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
+      "link": "https://colab.research.google.com/drive/1aoGIhadt1MUrmyAeowUtEcgryCu4GC8n#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
+    },
   ],
   "historico": [
     {

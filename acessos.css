@@ -1,0 +1,4 @@
+/* Complemento visual isolado: mantém o tema original do site */
+#acervo-restrito .acesso-card{display:flex;flex-direction:column;align-items:flex-start}
+#acervo-restrito .acesso-card p{flex-grow:1}
+#acervo-restrito .acesso-card .btn{margin-top:auto}

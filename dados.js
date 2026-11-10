@@ -40,6 +40,12 @@ window.PORTFOLIO_DADOS = {
       "url": "https://colab.research.google.com/drive/1jbvqGwb2aetUKyyFLCqEF0rrngTFHf3b"
     },
     {
+      "titulo": "Visualização da Area1 em falsa-cor NIR para o CVAT",
+      "categoria": "Pré-processamento",
+      "descricao": "Composição falsa-cor NIR–Vermelho–Verde (bandas 4–3–2), realce radiométrico e exportação PNG sem alterar dimensões ou posições dos pixels.",
+      "url": "https://colab.research.google.com/github/Carine-data-analyst/cbers4a-laboratorio/blob/main/notebooks/visualizacao_falsa_cor_nir_area1.ipynb"
+    },
+    {
       "titulo": "Extração de amostras da Area1",
       "categoria": "Amostragem / CVAT",
       "descricao": "Conversão das anotações em geometrias e extração de amostras; conferir a versão antes de executar.",
@@ -79,5 +85,11 @@ window.PORTFOLIO_DADOS = {
       "link": ""
     }
   ],
-  "historico": []
+  "historico": [
+    {
+      "data": "2026-11-10",
+      "titulo": "Visualização falsa-cor NIR adicionada",
+      "descricao": "Notebook de exportação PNG em falsa-cor para anotação no CVAT, mantendo as dimensões da Area1."
+    }
+  ]
 };

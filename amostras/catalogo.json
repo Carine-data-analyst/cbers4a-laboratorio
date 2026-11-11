@@ -1,5 +1,24 @@
+
 {
-  "versao": 1,
-  "contagens_por_classe": {},
-  "amostras": []
+  "versao": 2,
+  "imagem": "Area1.tif",
+  "extracao": "extracao_20261110_160657",
+  "atualizado_em": "2026-11-10T21:37:05-03:00",
+  "total_amostras": 500,
+  "total_classes": 2,
+  "classes": [
+    {
+      "nome": "Outros",
+      "poligonos": 198,
+      "pasta": "outros",
+      "link": "https://drive.google.com/drive/folders/1V4k0nzdRFSnuRm8BJgj0RmMaBS6IZ8LG"
+    },
+    {
+      "nome": "Vegetação arbórea",
+      "poligonos": 302,
+      "pasta": "vegetacao_arborea",
+      "link": "https://drive.google.com/drive/folders/1lkNu_0jgOZ-sZ1m-a1WZ0EQ0uVcZog2H"
+    }
+  ]
 }
+

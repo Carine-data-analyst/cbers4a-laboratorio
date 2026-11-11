@@ -1,36 +1,819 @@
-/* Módulo complementar: não altera window.PORTFOLIO_DADOS nem o diário. */
+
+/* ============================================================
+   LABORATÓRIO CBERS-4A — APLICATIVO DO SITE
+
+   Biblioteca de códigos
+   Banco de amostras automático
+   Banco de testes e experimentos
+   Recados e orientações
+
+   As informações das amostras são carregadas de:
+   amostras/catalogo.json
+
+   Caso o catálogo ainda não esteja publicado,
+   serão utilizados os dados de dados.js.
+   ============================================================ */
+
 (() => {
-  'use strict';
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const path = p => typeof p === 'string' && !p.startsWith('/') && !p.startsWith('//') && !p.includes('..') && /^(?:[\w-]+\/)*[\w.\-]+$/.test(p) ? p : null;
-  const url = p => {if(!p) return null; const v=path(p); if(v)return v; try{const u=new URL(p);return ['https:','http:'].includes(u.protocol)?u.href:null;}catch{return null;}};
-  async function jsonFile(file) {const r = await fetch(file+'?v='+Date.now(), {cache:'no-store'});if(!r.ok)throw new Error(`${file}: ${r.status}`);return r.json();}
-  function addSection(parent,title,desc,id){const section=document.createElement('div');section.className='catalogo-block';section.innerHTML=`<div class="section-head"><div><h3>${esc(title)}</h3><p class="intro">${esc(desc)}</p></div></div><div id="${id}" class="grid"><div class="empty">Carregando catálogo…</div></div>`;parent.append(section);return section.querySelector('#'+id);}
-  function empty(root,msg){root.innerHTML=`<div class="empty">${esc(msg)}</div>`;}
-  function link(label,target){const v=url(target);return v?`<a class="btn outline" target="_blank" rel="noopener noreferrer" href="${esc(v)}">${esc(label)} ↗</a>`:'';}
-  function fmtDate(v){if(!v)return 'Data a registrar';const d=new Date(v+'T12:00:00');return isNaN(d.getTime())?String(v):new Intl.DateTimeFormat('pt-BR').format(d);}
-  function cardSample(x){const fig=url(x.previa);const label=x.classe||'Classe não informada';return `<article class="card catalogo-card">${fig?`<img class="catalogo-thumb" loading="lazy" src="${esc(fig)}" alt="Prévia da amostra ${esc(x.id||'')}" />`:''}<span class="badge">${esc(label)}</span><h3>${esc(x.id||'Amostra')}</h3><p>${esc(x.descricao||'Amostra catalogada.')}</p><div class="pillrow">${x.imagem_origem?`<span class="pill">Origem: ${esc(x.imagem_origem)}</span>`:''}${x.conjunto?`<span class="pill">${esc(x.conjunto)}</span>`:''}</div>${link('Arquivo da amostra',x.arquivo)}</article>`;}
-  function cardTest(x){const date=fmtDate(x.data);return `<article class="card catalogo-card"><span class="badge">${esc(x.status||'Registrado')}</span><h3>${esc(x.titulo||x.id||'Experimento')}</h3><p>${esc(x.descricao||'')}</p><div class="pillrow"><span class="pill">${esc(date)}</span>${Number.isFinite(x.total_amostras)?`<span class="pill">${x.total_amostras} amostras</span>`:''}${Number.isFinite(x.acuracia_teste)?`<span class="pill">Teste: ${(x.acuracia_teste*100).toFixed(2)}%</span>`:''}</div>${link('Ver resultados',x.pagina||(`testes/${x.id}/resumo.json`))}</article>`;}
-  async function render(){
-    const samplesRoot=document.getElementById('lista-amostras');
-    const testsRoot=document.getElementById('lista-experimentos');
-    const historyRoot=document.getElementById('lista-historico');
-    if(!samplesRoot||!testsRoot)return;
-    const sm=addSection(samplesRoot.parentElement,'Galeria de amostras','Pré-visualizações e informações do catálogo público, separadas dos GeoTIFFs mantidos no Drive.','catalogo-amostras');
-    const tm=addSection(testsRoot.parentElement,'Testes publicados','Experimentos lidos automaticamente do catálogo JSON do repositório.','catalogo-testes');
-    try{
-      const d=await jsonFile('amostras/catalogo.json');
-      const arr=Array.isArray(d.amostras)?d.amostras:[];
-      if(arr.length)sm.innerHTML=arr.map(cardSample).join('');else empty(sm,'Ainda não existem amostras publicadas neste catálogo.');
-      const qtd=d.contagens_por_classe||{};
-      if(Object.keys(qtd).length){const p=document.createElement('p');p.className='hint';p.textContent='Contagens verificadas por classe: '+Object.entries(qtd).map(([c,n])=>`${c}: ${n}`).join(' · ');sm.before(p);}
-    }catch(e){console.warn(e);empty(sm,'Catálogo de amostras indisponível. Confira amostras/catalogo.json.');}
-    try{
-      const d=await jsonFile('testes/catalogo.json');const arr=Array.isArray(d.experimentos)?d.experimentos:[];
-      if(arr.length){tm.innerHTML=arr.slice().sort((a,b)=>String(b.data||'').localeCompare(String(a.data||''))).map(cardTest).join('');}
-      else empty(tm,'Nenhum novo experimento foi publicado nesta pasta. Os registros históricos continuam acima.');
-    }catch(e){console.warn(e);empty(tm,'Catálogo de testes indisponível. Confira testes/catalogo.json.');}
-    if(historyRoot){try{const h=await jsonFile('historico/atualizacoes.json');const arr=Array.isArray(h.atualizacoes)?h.atualizacoes:[];if(arr.length){const group=document.createElement('div');group.innerHTML='<h3>Atualizações publicadas automaticamente</h3>'+arr.slice().sort((a,b)=>String(b.data||'').localeCompare(String(a.data||''))).map(x=>`<article class="list-date"><div class="date">${esc(fmtDate(x.data))}</div><h3>${esc(x.titulo)}</h3><p>${esc(x.descricao||'')}</p></article>`).join('');historyRoot.append(group);}}catch(e){console.warn(e);}}
+  "use strict";
+
+  const d = window.PORTFOLIO_DADOS;
+
+  if (!d) {
+    console.error(
+      "PORTFOLIO_DADOS não encontrado. Verifique dados.js."
+    );
+    return;
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();
+
+  // ==========================================================
+  // 1. FUNÇÕES AUXILIARES
+  // ==========================================================
+
+  const $ = id => document.getElementById(id);
+
+  const text = (el, valor) => {
+    if (el) {
+      el.textContent = String(valor ?? "");
+    }
+  };
+
+  const safeLink = url => {
+    try {
+      const resultado = new URL(url);
+
+      return ["https:", "http:"].includes(resultado.protocol)
+        ? resultado.href
+        : null;
+
+    } catch {
+      return null;
+    }
+  };
+
+  const make = (tag, classe, conteudo) => {
+    const elemento = document.createElement(tag);
+
+    if (classe) {
+      elemento.className = classe;
+    }
+
+    if (conteudo !== undefined) {
+      elemento.textContent = conteudo;
+    }
+
+    return elemento;
+  };
+
+  const add = (pai, ...elementos) => {
+    elementos.forEach(elemento => pai.append(elemento));
+  };
+
+  const buttonLink = (
+    titulo,
+    url,
+    estilo = "btn"
+  ) => {
+
+    const linkSeguro = safeLink(url);
+
+    if (!linkSeguro) {
+      return make(
+        "span",
+        "hint",
+        "Link ainda não cadastrado"
+      );
+    }
+
+    const link = make("a", estilo, titulo);
+
+    link.href = linkSeguro;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    return link;
+  };
+
+  const dateFmt = valor => {
+
+    if (!valor) {
+      return "Sem data";
+    }
+
+    const data = new Date(
+      valor.length === 10
+        ? valor + "T12:00:00"
+        : valor
+    );
+
+    return Number.isNaN(data.getTime())
+      ? valor
+      : new Intl.DateTimeFormat(
+          "pt-BR",
+          {
+            dateStyle: "medium",
+            timeZone: "America/Sao_Paulo"
+          }
+        ).format(data);
+  };
+
+  function card(titulo, categoria, descricao) {
+
+    const cartao = make("article", "card");
+
+    add(
+      cartao,
+      make("span", "badge", categoria),
+      make("h3", "", titulo),
+      make("p", "", descricao)
+    );
+
+    return cartao;
+  }
+
+  // ==========================================================
+  // 2. BIBLIOTECA DE CÓDIGOS
+  // ==========================================================
+
+  function renderCodes() {
+
+    const root = $("lista-codigos");
+
+    if (!root) return;
+
+    root.replaceChildren();
+
+    const codigos = d.codigos || [];
+
+    if (!codigos.length) {
+
+      root.append(
+        make(
+          "div",
+          "empty",
+          "Nenhum notebook cadastrado."
+        )
+      );
+
+      return;
+    }
+
+    codigos.forEach(item => {
+
+      const cartao = card(
+        item.titulo,
+        item.categoria,
+        item.descricao
+      );
+
+      cartao.append(
+        buttonLink(
+          "Abrir no Colab ↗",
+          item.url
+        )
+      );
+
+      root.append(cartao);
+
+    });
+  }
+
+  // ==========================================================
+  // 3. BANCO DE AMOSTRAS — CATÁLOGO AUTOMÁTICO
+  // ==========================================================
+
+  async function renderSamples() {
+
+    const root = $("lista-amostras");
+
+    if (!root) return;
+
+    root.replaceChildren();
+
+    root.append(
+      make(
+        "div",
+        "empty",
+        "Carregando banco de amostras..."
+      )
+    );
+
+    let classes = [];
+    let catalogoAtual = null;
+
+    // --------------------------------------------------------
+    // 3.1. TENTAR LER O CATÁLOGO PUBLICADO
+    // --------------------------------------------------------
+
+    try {
+
+      const resposta = await fetch(
+        "amostras/catalogo.json?v=" + Date.now(),
+        {
+          cache: "no-store"
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error(
+          "Erro HTTP " + resposta.status
+        );
+      }
+
+      const catalogo = await resposta.json();
+
+      if (
+        !Array.isArray(catalogo.classes) ||
+        catalogo.classes.length === 0
+      ) {
+        throw new Error(
+          "Catálogo sem classes cadastradas."
+        );
+      }
+
+      // Validar os registros do catálogo.
+      for (const item of catalogo.classes) {
+
+        if (
+          typeof item.nome !== "string" ||
+          !item.nome.trim() ||
+          !Number.isInteger(item.poligonos) ||
+          item.poligonos < 0
+        ) {
+          throw new Error(
+            "Catálogo possui dados de classe inválidos."
+          );
+        }
+
+      }
+
+      const totalCalculado = catalogo.classes.reduce(
+        (soma, item) => soma + item.poligonos,
+        0
+      );
+
+      if (
+        catalogo.total_amostras !== undefined &&
+        catalogo.total_amostras !== totalCalculado
+      ) {
+        throw new Error(
+          "O total de amostras não corresponde " +
+          "à soma das classes."
+        );
+      }
+
+      classes = catalogo.classes;
+      catalogoAtual = catalogo;
+
+      console.log(
+        "Catálogo de amostras carregado:",
+        catalogo.extracao
+      );
+
+    } catch (erro) {
+
+      console.warn(
+        "Não foi possível carregar o catálogo:",
+        erro
+      );
+
+      // Utilizar o cadastro anterior enquanto
+      // o novo catálogo não estiver disponível.
+      classes = d.classes || [];
+
+    }
+
+    // --------------------------------------------------------
+    // 3.2. ATUALIZAR INDICADORES DO SITE
+    // --------------------------------------------------------
+
+    text(
+      $("stat-classes"),
+      classes.length
+    );
+
+    const todasContagensValidas = classes.every(
+      item => Number.isInteger(item.poligonos)
+    );
+
+    const total = todasContagensValidas
+      ? classes.reduce(
+          (soma, item) => soma + item.poligonos,
+          0
+        )
+      : null;
+
+    text(
+      $("stat-amostras"),
+      total === null ? "—" : total
+    );
+
+    // --------------------------------------------------------
+    // 3.3. ATUALIZAR DESCRIÇÃO DO BANCO
+    // --------------------------------------------------------
+
+    if (catalogoAtual) {
+
+      const descricao = [
+        "Banco de amostras da Area1.",
+        "Extração: " + catalogoAtual.extracao + ".",
+        "Total: " + total + " polígonos.",
+        "Classes: " + classes.length + ".",
+        "Arquivos GeoTIFF armazenados no Google Drive",
+        "com acesso controlado."
+      ].join(" ");
+
+      text(
+        $("amostras-descricao"),
+        descricao
+      );
+
+    } else {
+
+      text(
+        $("amostras-descricao"),
+        d.descricaoAmostras
+      );
+
+    }
+
+    // --------------------------------------------------------
+    // 3.4. GERAR OS CARTÕES AUTOMATICAMENTE
+    // --------------------------------------------------------
+
+    root.replaceChildren();
+
+    if (!classes.length) {
+
+      root.append(
+        make(
+          "div",
+          "empty",
+          "Nenhuma amostra cadastrada."
+        )
+      );
+
+      return;
+    }
+
+    classes.forEach(item => {
+
+      const cartao = make(
+        "article",
+        "card"
+      );
+
+      // Ícone da classe
+      const nomeNormalizado = String(
+        item.nome
+      ).toLowerCase();
+
+      let simbolo = item.icone || "◉";
+
+      if (!item.icone) {
+
+        if (
+          nomeNormalizado.includes("arbórea") ||
+          nomeNormalizado.includes("arborea")
+        ) {
+          simbolo = "🌳";
+        }
+
+      }
+
+      const icone = make(
+        "div",
+        "class-icon",
+        simbolo
+      );
+
+      // Nome da classe
+      const titulo = make(
+        "h3",
+        "",
+        item.nome
+      );
+
+      // Descrição da classe
+      const descricao = make(
+        "p",
+        "",
+        item.descricao ||
+        "Amostras individuais extraídas da imagem Area1."
+      );
+
+      // Quantidade de polígonos
+      const quantidade = make(
+        "p",
+        ""
+      );
+
+      const destaque = make(
+        "strong",
+        "",
+        Number.isInteger(item.poligonos)
+          ? item.poligonos + " polígonos"
+          : "Quantidade a contabilizar"
+      );
+
+      quantidade.append(destaque);
+
+      add(
+        cartao,
+        icone,
+        titulo,
+        descricao,
+        quantidade
+      );
+
+      // ------------------------------------------------------
+      // 3.5. LINK DIRETO PARA A PASTA DA CLASSE
+      // ------------------------------------------------------
+
+      if (item.link && safeLink(item.link)) {
+
+        cartao.append(
+          buttonLink(
+            "Ver amostras da classe ↗",
+            item.link,
+            "btn outline"
+          )
+        );
+
+      } else {
+
+        cartao.append(
+          make(
+            "span",
+            "hint",
+            "Pasta ainda não vinculada."
+          )
+        );
+
+      }
+
+      root.append(cartao);
+
+    });
+
+  }
+
+  // ==========================================================
+  // 4. BANCO DE TESTES E EXPERIMENTOS
+  // ==========================================================
+
+  function renderExperiments() {
+
+    const root = $("lista-experimentos");
+
+    if (!root) return;
+
+    root.replaceChildren();
+
+    const experimentos = d.experimentos || [];
+
+    if (!experimentos.length) {
+
+      root.append(
+        make(
+          "div",
+          "empty",
+          "Nenhum experimento cadastrado."
+        )
+      );
+
+      return;
+    }
+
+    experimentos.forEach(item => {
+
+      const cartao = card(
+        item.titulo,
+        item.status || "Registrado",
+        item.descricao
+      );
+
+      const metricas = make(
+        "div",
+        "pillrow"
+      );
+
+      (item.metricas || []).forEach(metrica => {
+
+        metricas.append(
+          make(
+            "span",
+            "pill",
+            metrica
+          )
+        );
+
+      });
+
+      cartao.append(metricas);
+
+      if (item.observacoes) {
+
+        cartao.append(
+          make(
+            "p",
+            "",
+            item.observacoes
+          )
+        );
+
+      }
+
+      if (item.link) {
+
+        cartao.append(
+          buttonLink(
+            "Ver resultados ↗",
+            item.link,
+            "btn outline"
+          )
+        );
+
+      }
+
+      root.append(cartao);
+
+    });
+  }
+
+  // ==========================================================
+  // 5. REPOSITÓRIO GITHUB
+  // ==========================================================
+
+  function repository() {
+
+    const configuracao = d.repositorio || {};
+
+    const owner = String(
+      configuracao.usuario || ""
+    ).trim();
+
+    const repo = String(
+      configuracao.nome || ""
+    ).trim();
+
+    if (
+      !owner ||
+      !repo ||
+      owner.includes("SEU_USUARIO")
+    ) {
+      return null;
+    }
+
+    return {
+      owner,
+      repo,
+      url:
+        "https://github.com/" +
+        encodeURIComponent(owner) +
+        "/" +
+        encodeURIComponent(repo)
+    };
+  }
+
+  // ==========================================================
+  // 6. RECADOS E ORIENTAÇÕES
+  // ==========================================================
+
+  async function diary() {
+
+    const root = $("lista-diario");
+    const newLink = $("novo-recado");
+
+    if (!root || !newLink) return;
+
+    const repositorio = repository();
+
+    if (!repositorio) {
+
+      root.replaceChildren();
+
+      newLink.removeAttribute("href");
+
+      newLink.setAttribute(
+        "aria-disabled",
+        "true"
+      );
+
+      return;
+    }
+
+    newLink.href =
+      repositorio.url +
+      "/issues/new?title=" +
+      encodeURIComponent(
+        "[Diário] Orientação do professor"
+      ) +
+      "&body=" +
+      encodeURIComponent(
+        "Data da orientação:\n\n" +
+        "Recado / orientação:\n\n" +
+        "Próximas atividades:\n"
+      );
+
+    const linkRepo = $("link-repo");
+
+    if (linkRepo) {
+      linkRepo.href = repositorio.url;
+    }
+
+    try {
+
+      const endereco =
+        "https://api.github.com/repos/" +
+        encodeURIComponent(repositorio.owner) +
+        "/" +
+        encodeURIComponent(repositorio.repo) +
+        "/issues?state=all&per_page=100" +
+        "&sort=created&direction=desc";
+
+      const resposta = await fetch(
+        endereco,
+        {
+          headers: {
+            Accept: "application/vnd.github+json"
+          }
+        }
+      );
+
+      if (!resposta.ok) {
+        throw new Error(
+          "HTTP " + resposta.status
+        );
+      }
+
+      const todos = await resposta.json();
+
+      const recados = todos.filter(
+        item =>
+          !item.pull_request &&
+          /^\[Diário\]/i.test(item.title || "")
+      ).slice(0, 20);
+
+      root.replaceChildren();
+
+      recados.forEach(item => {
+
+        const cartao = make(
+          "article",
+          "diary-card"
+        );
+
+        add(
+          cartao,
+
+          make(
+            "div",
+            "date",
+            dateFmt(item.created_at)
+          ),
+
+          make(
+            "h3",
+            "",
+            item.title.replace(
+              /^\[Diário\]\s*/i,
+              ""
+            )
+          ),
+
+          make(
+            "small",
+            "",
+            "Registrado por @" +
+            (item.user?.login || "usuário") +
+            " · " +
+            (
+              item.state === "closed"
+                ? "Concluído"
+                : "Em aberto"
+            )
+          ),
+
+          make(
+            "p",
+            "",
+            item.body || "Sem texto adicional."
+          ),
+
+          buttonLink(
+            "Abrir registro e comentários ↗",
+            item.html_url,
+            "btn outline"
+          )
+        );
+
+        root.append(cartao);
+
+      });
+
+    } catch (erro) {
+
+      console.warn(
+        "Erro ao carregar recados:",
+        erro
+      );
+
+      root.replaceChildren();
+
+    }
+
+  }
+
+  // ==========================================================
+  // 7. INICIALIZAÇÃO DO SITE
+  // ==========================================================
+
+  function init() {
+
+    // Cores
+    document.documentElement.style.setProperty(
+      "--accent",
+      d.tema.acento
+    );
+
+    document.documentElement.style.setProperty(
+      "--accent-soft",
+      d.tema.suave
+    );
+
+    document.documentElement.style.setProperty(
+      "--hero",
+      d.tema.escuro
+    );
+
+    document.documentElement.style.setProperty(
+      "--hero2",
+      d.tema.degrade
+    );
+
+    // Informações gerais
+    document.title = d.nome + " | CBERS-4A";
+
+    text($("marca"), d.nome);
+    text($("titulo"), d.titulo);
+    text($("subtitulo"), d.subtitulo);
+
+    text(
+      $("autoria"),
+      d.autora + " · " + d.tipo
+    );
+
+    text(
+      $("rodape"),
+      d.nome + " · " + d.autora
+    );
+
+    // Estatísticas gerais
+    text(
+      $("stat-codigos"),
+      (d.codigos || []).length
+    );
+
+    text(
+      $("stat-exps"),
+      (d.experimentos || []).length
+    );
+
+    // Valores provisórios até carregar o JSON
+    text(
+      $("stat-classes"),
+      (d.classes || []).length
+    );
+
+    // Renderizar componentes
+    renderCodes();
+
+    // Esta função busca o catálogo JSON e
+    // atualiza as quantidades automaticamente.
+    renderSamples();
+
+    renderExperiments();
+
+    diary();
+
+  }
+
+  // ==========================================================
+  // 8. EXECUTAR QUANDO A PÁGINA ESTIVER PRONTA
+  // ==========================================================
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      init
+    );
+
+  } else {
+
+    init();
+
+  }
+
 })();

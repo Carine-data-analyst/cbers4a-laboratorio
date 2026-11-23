@@ -128,6 +128,30 @@ window.PORTFOLIO_DADOS = {
       "observacoes": "Experimento com amostras próprias da Area1, utilizando contexto buffer de 20%. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
       "link": "https://colab.research.google.com/drive/1VJeWbnCP6Y1fbXTvH2l60Oqz5ejXkq1d#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
     },
+    {
+      "titulo": "Treinamento 2 — MobileNetV2: contorno sem contexto",
+      "status": "Concluído",
+      "descricao": "Estratégia: SEM CONTEXTO. Experimento realizado com 1.479 amostras da imagem Area1, utilizando a MobileNetV2.",
+      "metricas": [
+        "1.479 amostras",
+        "Sem contexto",
+        "Acurácia: a preencher"
+      ],
+      "observacoes": "Segundo treinamento com amostras próprias da Area1. Resultados e métricas disponíveis no notebook da execução correspondente.",
+      "link": "https://colab.research.google.com/drive/18oZkdi09Tz3OTqfmkSlfkljLHx4lpHCw#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
+    },
+    {
+      "titulo": "Treinamento 2 — MobileNetV2: contorno com contexto buffer",
+      "status": "Concluído",
+      "descricao": "Estratégia: COM CONTEXTO BUFFER. Experimento realizado com 1.479 amostras da imagem Area1, utilizando a MobileNetV2.",
+      "metricas": [
+        "1.479 amostras",
+        "Com contexto buffer",
+        "Acurácia: a preencher"
+      ],
+      "observacoes": "Segundo treinamento com contexto espacial adicional. Resultados e métricas disponíveis no notebook da execução correspondente.",
+      "link": "https://colab.research.google.com/drive/1AAJi-fqvjBapR3hImbznhWyW0lTUFaTy#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
+    },
   ],
   "historico": [
     {

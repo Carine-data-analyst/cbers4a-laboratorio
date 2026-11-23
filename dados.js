@@ -109,7 +109,7 @@ window.PORTFOLIO_DADOS = {
         "75 teste",
         "Acurácia: 96,00%"
       ],
-      "observacoes": "Experimento com amostras próprias da Area1, sem contexto buffer. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
+      "observacoes": "Treinamento 1 com amostras próprias da Area1, sem contexto buffer. Resultado referente à execução de 500 amostras.",
       "link": "https://colab.research.google.com/drive/1BiLmwB0QBfh5zVqiVDKiQ9MWiScDNbTc#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
     },
     {
@@ -125,7 +125,7 @@ window.PORTFOLIO_DADOS = {
         "Buffer: 20%",
         "Acurácia: 90,67%"
       ],
-      "observacoes": "Experimento com amostras próprias da Area1, utilizando contexto buffer de 20%. Resultado referente à execução de 500 amostras; novas execuções do notebook podem substituir as saídas apresentadas no link.",
+      "observacoes": "Treinamento 1 com amostras próprias da Area1, utilizando contexto buffer de 20%. Resultado referente à execução de 500 amostras.",
       "link": "https://colab.research.google.com/drive/1VJeWbnCP6Y1fbXTvH2l60Oqz5ejXkq1d#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
     },
     {
@@ -133,11 +133,14 @@ window.PORTFOLIO_DADOS = {
       "status": "Concluído",
       "descricao": "Estratégia: SEM CONTEXTO. Experimento realizado com 1.479 amostras da imagem Area1, utilizando a MobileNetV2.",
       "metricas": [
-        "1.479 amostras",
-        "Sem contexto",
-        "Acurácia: a preencher"
+        "1479 amostras",
+        "2 classes",
+        "1035 treino",
+        "222 validação",
+        "222 teste",
+        "Acurácia: 95,95%"
       ],
-      "observacoes": "Segundo treinamento com amostras próprias da Area1. Resultados e métricas disponíveis no notebook da execução correspondente.",
+      "observacoes": "Treinamento 2 com amostras próprias da Area1, utilizando apenas o contorno dos polígonos, sem contexto buffer. Resultado referente à execução de 1479 amostras.",
       "link": "https://colab.research.google.com/drive/18oZkdi09Tz3OTqfmkSlfkljLHx4lpHCw#scrollTo=W8k3aEjb_e85&fullscreenOutput=true"
     },
     {
@@ -145,11 +148,14 @@ window.PORTFOLIO_DADOS = {
       "status": "Concluído",
       "descricao": "Estratégia: COM CONTEXTO BUFFER. Experimento realizado com 1.479 amostras da imagem Area1, utilizando a MobileNetV2.",
       "metricas": [
-        "1.479 amostras",
-        "Com contexto buffer",
-        "Acurácia: a preencher"
+        "1479 amostras",
+        "2 classes",
+        "1035 treino",
+        "222 validação",
+        "222 teste",
+        "Acurácia: 96,85%"
       ],
-      "observacoes": "Segundo treinamento com contexto espacial adicional. Resultados e métricas disponíveis no notebook da execução correspondente.",
+      "observacoes": "Treinamento 2 com amostras próprias da Area1, utilizando contexto buffer. Resultado referente à execução de 1479 amostras.",
       "link": "https://colab.research.google.com/drive/1AAJi-fqvjBapR3hImbznhWyW0lTUFaTy#scrollTo=5kVP9NMeVnR-&fullscreenOutput=true"
     },
   ],

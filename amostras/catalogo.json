@@ -1,24 +1,22 @@
-
 {
   "versao": 2,
   "imagem": "Area1.tif",
-  "extracao": "extracao_20261110_160657",
-  "atualizado_em": "2026-11-10T21:37:05-03:00",
-  "total_amostras": 500,
+  "extracao": "extracao_20261122_224252",
+  "atualizado_em": "2026-11-22T22:44:38-03:00",
+  "total_amostras": 1479,
   "total_classes": 2,
   "classes": [
     {
       "nome": "Outros",
-      "poligonos": 198,
+      "poligonos": 1057,
       "pasta": "outros",
-      "link": "https://drive.google.com/drive/folders/1V4k0nzdRFSnuRm8BJgj0RmMaBS6IZ8LG"
+      "link": "https://drive.google.com/drive/folders/1bYB-CODVFPCL-lt54Vxoy2tXawVRWbS7"
     },
     {
       "nome": "Vegetação arbórea",
-      "poligonos": 302,
+      "poligonos": 422,
       "pasta": "vegetacao_arborea",
-      "link": "https://drive.google.com/drive/folders/1lkNu_0jgOZ-sZ1m-a1WZ0EQ0uVcZog2H"
+      "link": "https://drive.google.com/drive/folders/1vy9WfNHIo3wWgGQhu9G99cN9ykcKLYzS"
     }
   ]
 }
-
